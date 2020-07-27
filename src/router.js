@@ -1,13 +1,17 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
-import Users from "./views/Users.vue";
-import UsersProfile from "./views/UsersProfile.vue";
-import UsersPosts from "./views/UsersPosts.vue";
-import HeaderUsers from "./views/HeaderUsers.vue";
-import HeaderHome from "./views/HeaderHome.vue";
 
-Vue.use(Router);
+// ChuckNameを変えたり、同じ名前にすると統一できる。まとめて持ってこれる。
+// 最初に必要最低限のデータを遅延ローディングで読み込ませる
+const Home = () =>
+  import(/* webpackChunkName: "Homeeeeeeeeee" */ "./views/Home.vue");
+const Users = () => import("./views/Users.vue");
+const UsersPosts = () => import("./views/UsersPosts.vue");
+const UsersProfile = () => import("./views/UsersProfile.vue");
+const HeaderHome = () => import("./views/HeaderHome.vue");
+const HeaderUsers = () => import("./views/HeaderUsers.vue");
+
+Vue.use(Router); // Vue.use(プラグイン) : プラグインを使用する
 
 export default new Router({
   mode: "history",
@@ -20,14 +24,8 @@ export default new Router({
       },
     },
     {
-      path: "/users",
-      components: {
-        default: Users,
-        header: HeaderUsers,
-      },
-    },
-    {
       path: "/users/:id",
+      default: Users,
       components: {
         default: Users,
         header: HeaderUsers,
@@ -43,19 +41,19 @@ export default new Router({
     },
     {
       path: "*",
-      redirect: { path: "/" },
+      redirect: "/",
     },
   ],
+
   scrollBehavior(to, from, savedPosition) {
     return new Promise((resolve) => {
       this.app.$root.$once("triggerScroll", () => {
+        // 第一引数:カスタムイベントを受け取るイベント名 ,第二引数:イベントの中の処理
         let position = { x: 0, y: 0 };
         if (savedPosition) {
-          return savedPosition;
+          position = savedPosition;
         }
-        // console.log(to.hash);
         if (to.hash) {
-          // console.log("triggerScroll");
           position = {
             selector: to.hash,
           };
