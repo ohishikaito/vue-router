@@ -19,13 +19,13 @@ export default new Router({
         header: HeaderHome,
       },
     },
-    // {
-    //   path: "/users",
-    //   components: {
-    //     default: Users,
-    //     header: HeaderUsers,
-    //   },
-    // },
+    {
+      path: "/users",
+      components: {
+        default: Users,
+        header: HeaderUsers,
+      },
+    },
     {
       path: "/users/:id",
       components: {
@@ -34,7 +34,7 @@ export default new Router({
       },
       props: {
         default: true,
-        hader: false,
+        header: false,
       },
       children: [
         { path: "posts", component: UsersPosts },
@@ -46,4 +46,22 @@ export default new Router({
       redirect: { path: "/" },
     },
   ],
+  scrollBehavior(to, from, savedPosition) {
+    return new Promise((resolve) => {
+      this.app.$root.$once("triggerScroll", () => {
+        let position = { x: 0, y: 0 };
+        if (savedPosition) {
+          return savedPosition;
+        }
+        // console.log(to.hash);
+        if (to.hash) {
+          // console.log("triggerScroll");
+          position = {
+            selector: to.hash,
+          };
+        }
+        resolve(position);
+      });
+    });
+  },
 });
