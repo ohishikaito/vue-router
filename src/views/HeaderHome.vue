@@ -11,20 +11,26 @@
     <router-link :to="'/users/' + 1 + '/profile?lang=ja#next-user'"
       >次のユーザー</router-link
     >
-    <button @click="inc">+1</button>
-    <button @click="dec">+1</button>
+    <button @click="inc(2)">+1</button>
+    <button @click="dec(2)">+1</button>
   </nav>
 </template>
 
 <script>
+import { mapActions } from "vuex";
+// import { mapMutations } from "vuex";
 export default {
   methods: {
-    inc() {
-      this.$store.state.count++;
-    },
-    dec() {
-      this.$store.state.count--;
-    },
+    ...mapActions("count", ["inc", "dec"]),
+    // ...mapMutations(["inc", "dec"]),
+    // inc() {
+    //   // this.$store.commit("inc", 2);
+    //   this.$store.dispatch("inc", 2);
+    // },
+    // dec() {
+    //   // this.$store.commit("dec", 2);
+    //   this.$store.dispatch("dec", 2);
+    // },
   },
 };
 </script>
