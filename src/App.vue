@@ -16,8 +16,8 @@ export default {
   methods: {
     beforeEnter() {
       this.$root.$emit("triggerScroll"); // $root:一番上のインスタンス
-    }
-  }
+    },
+  },
 };
 </script>
 
