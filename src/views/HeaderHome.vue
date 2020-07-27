@@ -4,6 +4,7 @@
     <router-link to="/" active-class="link--active" class="link" exact>Home</router-link>
     <br />
     <router-link to="/Users" active-class="link--active" class="link" exact>users</router-link>
+    <router-link :to="'/users/' + (1) + '/profile?lang=ja#next-user'">次のユーザー</router-link>
   </nav>
 </template>
 
